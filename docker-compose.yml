@@ -4,7 +4,11 @@ services:
     image: postgres
     ports:
       - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: Hotel-App-DB
       POSTGRES_USER: Hotel-App
       POSTGRES_PASSWORD: HotelApp2024!
+volumes:
+  db-data:
