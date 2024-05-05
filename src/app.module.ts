@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { RoomsModule } from './rooms/rooms.module';
 import * as Joi from '@hapi/joi';
+import { ReservationsModule } from './reservations/reservations.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import * as Joi from '@hapi/joi';
     }),
     UsersModule,
     RoomsModule,
+    ReservationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

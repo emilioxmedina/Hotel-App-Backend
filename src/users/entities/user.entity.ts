@@ -1,5 +1,6 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import Reservation from "src/reservations/entities/reservations.entities";
 
 @Entity('users')
 export default class User {
@@ -17,6 +18,9 @@ export default class User {
     
     @Column({ type: 'varchar', length: 100 })
     password: string;
+
+    @OneToMany(() => Reservation, reservation => reservation.user)
+    reservations: Reservation[];
 
     @BeforeInsert()
     async hashPassword() {
