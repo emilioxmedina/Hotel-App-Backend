@@ -12,6 +12,8 @@ export class RoomsService {
     private readonly roomsRepository: Repository<Room>
   ) { }
 
+  //modifcar el create para que pueda insertar el No.cuarto,
+  // cuantas camas tiene y para cuantas personas
   create(new_room: CreateRoomDto) {
     if (new_room.room_number === undefined) {
       throw new BadRequestException('Room number is required');
@@ -27,6 +29,10 @@ export class RoomsService {
     return this.roomsRepository.save(room);
   }
 
+  findOne(room_number:number){
+    return 'this function return rooms disoccupied by room number or id mijardo'
+  }
+
   async getByPrice(price: number): Promise<Room[]> {
     const room = await this.roomsRepository.find({
       where: { price }
@@ -39,40 +45,23 @@ export class RoomsService {
     return room;
   }
 
-  async getByType(type: string): Promise<Room[]> {
-    const room = await this.roomsRepository.find({
-      where: { type },
-    });
+  //modificar esta parte para que retorne por numero de personas
+  //(en una cama puede haber 2 personas si el hotel lo permite)
+  async getByNumberPeople(num_people: number)/*: Promise<Room>*/ {
+    // const room = await this.roomsRepository.findOne({
+    //   where: { room_number },
+    // });
 
-    if (!room) {
-      throw new NotFoundException(`Room with type: ${type} is not found`);
-    }
+    // if (!room) {
+    //   throw new NotFoundException(`Room with number: ${room_number} is not found`);
+    // }
 
-    return room;
+    // return room;
   }
 
-  async getByNumber(room_number: number): Promise<Room> {
-    const room = await this.roomsRepository.findOne({
-      where: { room_number },
-    });
-
-    if (!room) {
-      throw new NotFoundException(`Room with number: ${room_number} is not found`);
-    }
-
-    return room;
-  }
-
-  async getByPriceType(price: number, type: string) {
-    const room = await this.roomsRepository.findOne({
-      where: { price, type },
-    });
-
-    if (!room) {
-      throw new NotFoundException(`Room with this price and type is not found`);
-    }
-
-    return room;
+  //Esta funcion debe retornar todos cuartos que esten desocupados
+  getDisoccupieds() {
+    return this.roomsRepository.find();
   }
 
   async isOccupied(room_number: number): Promise<boolean> {
@@ -106,11 +95,7 @@ export class RoomsService {
 
     room.occupied = false;
   }
-
-  findAll() {
-    return this.roomsRepository.find();
-  }
-
+  
   async findOneRoom(room_number: number): Promise<Room> {
     const room = await this.roomsRepository.findOne({
       where: { room_number },
