@@ -34,8 +34,8 @@ export class ReservationsController {
     }
 
     @Get(':date')
-    findByDate(@Param('date') date: Date) {
-        return this.ReservationService.findByDate(date);
+    findByDate(@Body() reservation: UpdateReservationDto) {
+        return this.ReservationService.findByDate(reservation.init_date, reservation.end_date);
     }
 
     @Patch(':id')
