@@ -27,7 +27,7 @@ import * as Joi from '@hapi/joi';
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: false
+      synchronize: true
     }),
     UsersModule,
     RoomsModule,
@@ -35,4 +35,4 @@ import * as Joi from '@hapi/joi';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

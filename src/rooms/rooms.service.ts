@@ -1,54 +1,136 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
+import { Room } from './entities/room.entity';
+import { And, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class RoomsService {
-  create(room_number: number, type: string, price: number) {
-    return 'This action adds a new room';
+  constructor(
+    @InjectRepository(Room)
+    private readonly roomsRepository: Repository<Room>
+  ) { }
+
+  create(new_room: CreateRoomDto) {
+    if (new_room.room_number === undefined) {
+      throw new BadRequestException('Room number is required');
+    }
+    if (new_room.type === undefined) {
+      throw new BadRequestException('Room type is required');
+    }
+    if (new_room.price === undefined) {
+      throw new BadRequestException('Room price is required');
+    }
+
+    const room = this.roomsRepository.create(new_room);
+    return this.roomsRepository.save(room);
   }
 
-  getByPrice(price: number){
-    return "this action return get by price room"
+  async getByPrice(price: number): Promise<Room[]> {
+    const room = await this.roomsRepository.find({
+      where: { price }
+    });
+
+    if (!room) {
+      throw new NotFoundException(`Room with price: ${price} is not found`);
+    }
+
+    return room;
   }
 
-  getByType(type: string){
-    return "this action return get by type room"
+  async getByType(type: string): Promise<Room[]> {
+    const room = await this.roomsRepository.find({
+      where: { type },
+    });
+
+    if (!room) {
+      throw new NotFoundException(`Room with type: ${type} is not found`);
+    }
+
+    return room;
   }
 
-  getByNumber(room_number:number){
-    return "this action return get by number room"
+  async getByNumber(room_number: number): Promise<Room> {
+    const room = await this.roomsRepository.findOne({
+      where: { room_number },
+    });
+
+    if (!room) {
+      throw new NotFoundException(`Room with number: ${room_number} is not found`);
+    }
+
+    return room;
   }
 
-  getByPriceType(price: number, type: string){
-    return "this action return get by price type room"
+  async getByPriceType(price: number, type: string) {
+    const room = await this.roomsRepository.findOne({
+      where: { price, type },
+    });
+
+    if (!room) {
+      throw new NotFoundException(`Room with this price and type is not found`);
+    }
+
+    return room;
   }
 
-  getByOccupied(room_number:number){
-    return "this action return get confirmation occupied room"
+  async isOccupied(room_number: number): Promise<boolean> {
+    const room = await this.findOneRoom(room_number);
+
+    if (!room) {
+      throw new NotFoundException(`Room with number: ${room_number} is not found`);
+    }
+
+    return room.occupied;
   }
 
-  bookARoom(room_number:number){
-    return "this action return confirmation book a room"
+  async bookARoom(room_number: number) {
+    const room = await this.findOneRoom(room_number);
+
+    if (!room) {
+      throw new NotFoundException(`Room with number: ${room_number} is not found`);
+    }
+
+    room.occupied = true;
   }
 
-  unBookARoom(room_number:number){
-    return "this action return confirmation reserved room"
+  async unBookARoom(room_number: number) {
+    const room = await this.roomsRepository.findOne({
+      where: { room_number },
+    });
+
+    if (!room) {
+      throw new NotFoundException(`Room with number: ${room_number} is not found`);
+    }
+
+    room.occupied = false;
   }
 
   findAll() {
-    return `This action returns all rooms`;
+    return this.roomsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} room`;
+  async findOneRoom(room_number: number): Promise<Room> {
+    const room = await this.roomsRepository.findOne({
+      where: { room_number },
+    });
+
+    if (!room) {
+      throw new NotFoundException(`Room with id: ${room_number} is not found`);
+    }
+
+    return room;
   }
 
-  update(id: number, updateRoomDto: UpdateRoomDto) {
-    return `This action updates a #${id} room`;
+  async update(room_number: number, updateRoomDto: UpdateRoomDto) {
+    const room = await this.findOneRoom(room_number);
+    this.roomsRepository.merge(room, updateRoomDto);
+    return this.roomsRepository.save(room);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} room`;
+  async remove(room_number: number) {
+    const room = await this.findOneRoom(room_number);
+    return this.roomsRepository.remove(room);
   }
 }

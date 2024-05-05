@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsString, MaxLength, MinLength } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
 export class CreateRoomDto {
     @IsNumber()
@@ -13,6 +13,7 @@ export class CreateRoomDto {
     price: number;
 
     @IsBoolean()
-    occupied: boolean;
+    @IsOptional()
+    occupied?: boolean;
 }
 

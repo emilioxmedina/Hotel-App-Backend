@@ -8,12 +8,12 @@ export class Room {
     @Column()
     room_number: number;
 
-    @Column({type: 'varchar', length: 44})
-    type:string;
+    @Column({ type: 'varchar', length: 44 })
+    type: string;
 
-    @Column({type:'decimal',precision:6, scale: 2})
+    @Column({ type: 'decimal', precision: 6, scale: 2 })
     price: number;
 
-    @Column({default:false})
-    occupied:boolean;
+    @Column({ default: false })
+    occupied?: boolean;
 }
