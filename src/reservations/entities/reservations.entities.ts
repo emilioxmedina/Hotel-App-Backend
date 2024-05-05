@@ -6,8 +6,10 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 export default class Reservation{
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({type: 'date', length: 255})
-    date: Date;
+    @Column({type: 'date'})
+    init_date: Date;
+    @Column({type: 'date'})
+    end_date: Date;
     @ManyToOne(() => User, user => user.reservations)
     user: User;
     @ManyToOne(() => Room, room => room.reservations)

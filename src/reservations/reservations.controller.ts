@@ -12,6 +12,16 @@ export class ReservationsController {
     create(@Body() reservation: CreateReservationDto) {
         return this.ReservationService.create(reservation);
     }
+
+    @Get()
+    findAll() {
+        return this.ReservationService.findAll();
+    }
+
+    @Get(':id')
+    findOne(@Param('id') id: number) {
+        return this.ReservationService.findOne(id);
+    }
     
     @Get(':user')
     findByUser(@Param('user') user_id: number) {

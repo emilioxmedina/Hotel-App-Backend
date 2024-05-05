@@ -20,6 +20,10 @@ export class ReservationsService {
 
     create(reservation: CreateReservationDto) {}
 
+    findAll() {}
+
+    findOne(id: number) {}
+
     findByUser(user_id: number) {}
     
     findByRoom_number(room_number: number) {}
