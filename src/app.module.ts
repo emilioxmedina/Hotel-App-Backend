@@ -27,7 +27,7 @@ import * as Joi from '@hapi/joi';
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: true
+      synchronize: false
     }),
     UsersModule,
     RoomsModule,
