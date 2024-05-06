@@ -7,44 +7,44 @@ import UpdateUserDto from './dtos/updateuser.dto';
 
 @Injectable()
 export class UsersService {
-    constructor(
-        @InjectRepository(User)
-        private readonly usersRepository: Repository<User>
-    ) {}
+  constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
+  ) {}
 
-    findAll() {
-        return this.usersRepository.find();
-    }
+  findAll() {
+    return this.usersRepository.find();
+  }
 
-    async findOne(id: number) {
-        const user = await this.usersRepository.findOne({ where: { id } });
-        if (user === null) {
-            throw new NotFoundException(`User with id ${id} not found`);
-        }
-        return user;
+  async findOne(id: number) {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    if (user === null) {
+      throw new NotFoundException(`User with id ${id} not found`);
     }
+    return user;
+  }
 
-    async findOneByEmail(email: string) {
-        const user = await this.usersRepository.findOne({ where: { email } });
-        if (user === null) {
-            throw new NotFoundException(`User with email ${email} not found`);
-        }
-        return user;
+  async findOneByEmail(email: string) {
+    const user = await this.usersRepository.findOne({ where: { email } });
+    if (user === null) {
+      throw new NotFoundException(`User with email ${email} not found`);
     }
+    return user;
+  }
 
-    create(new_user: CreateUserDto) {
-        const user = this.usersRepository.create(new_user);
-        return this.usersRepository.save(user);
-    }
+  create(new_user: CreateUserDto) {
+    const user = this.usersRepository.create(new_user);
+    return this.usersRepository.save(user);
+  }
 
-    async update(id: number, update_user: UpdateUserDto) {
-        const user = await this.findOne(id);
-        this.usersRepository.merge(user, update_user);
-        return this.usersRepository.save(user);
-    }
+  async update(id: number, update_user: UpdateUserDto) {
+    const user = await this.findOne(id);
+    this.usersRepository.merge(user, update_user);
+    return this.usersRepository.save(user);
+  }
 
-    async remove(id: number) {
-        const user = await this.findOne(id);
-        return this.usersRepository.remove(user);
-    }
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    return this.usersRepository.remove(user);
+  }
 }

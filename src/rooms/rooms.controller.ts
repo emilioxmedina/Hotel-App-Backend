@@ -13,7 +13,7 @@ import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
-import { Room } from './entities/room.entity';
+import Room from './entities/room.entity';
 
 @ApiTags('rooms')
 @Controller('rooms')
@@ -22,6 +22,7 @@ export class RoomsController {
 
   @Post()
   @ApiCreatedResponse({
+    status: HttpStatus.CREATED,
     description: 'Este endpoint sirve para crear nuevas habitaciones.',
     type: Room,
   })
@@ -59,10 +60,12 @@ export class RoomsController {
   }
 
   @ApiCreatedResponse({
+    status: HttpStatus.NO_CONTENT,
     description: 'Este endpoint sirve para eliminar habitaciones.',
     type: Room,
   })
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: number) {
     return this.roomsService.remove(id);
   }

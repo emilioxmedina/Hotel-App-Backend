@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
-import { Room } from './entities/room.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import Room from './entities/room.entity';
 
 @Injectable()
 export class RoomsService {
@@ -16,8 +16,6 @@ export class RoomsService {
     private readonly roomsRepository: Repository<Room>,
   ) {}
 
-  // ! modifcar el create para que pueda insertar el No.cuarto,
-  // ! cuantas camas tiene y para cuantas personas
   create(new_room: CreateRoomDto) {
     if (new_room.room_number === undefined) {
       throw new BadRequestException('Room number is required');
