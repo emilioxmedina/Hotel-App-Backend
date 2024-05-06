@@ -1,19 +1,19 @@
-import { IsBoolean, IsNumber, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateRoomDto {
-    @IsNumber()
-    room_number: number;
+  @IsNumber()
+  room_number: number;
 
-    @IsString()
-    @MinLength(1)
-    @MaxLength(255)
-    type: string;
+  @IsNumber()
+  price: number;
 
-    @IsNumber()
-    price: number;
+  @IsNumber()
+  num_beds: number;
 
-    @IsBoolean()
-    @IsOptional()
-    occupied?: boolean;
+  @IsNumber()
+  num_people: number;
+
+  @IsBoolean()
+  @IsOptional()
+  occupied?: boolean;
 }
-

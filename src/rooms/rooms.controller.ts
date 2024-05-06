@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
@@ -8,7 +18,7 @@ import { Room } from './entities/room.entity';
 @ApiTags('rooms')
 @Controller('rooms')
 export class RoomsController {
-  constructor(private readonly roomsService: RoomsService) { }
+  constructor(private readonly roomsService: RoomsService) {}
 
   @Post()
   @ApiCreatedResponse({
@@ -30,12 +40,13 @@ export class RoomsController {
   }
 
   @ApiCreatedResponse({
-    description: 'Este endpoint sirve para obtener una habitación por su número.',
+    description:
+      'Este endpoint sirve para obtener una habitación por su número.',
     type: Room,
   })
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.roomsService.findOneRoom(id);
+    return this.roomsService.findOne(id);
   }
 
   @ApiCreatedResponse({
