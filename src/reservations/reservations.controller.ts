@@ -22,30 +22,15 @@ export class ReservationsController {
     findOne(@Param('id') id: number) {
         return this.ReservationService.findOne(id);
     }
-    
-    @Get(':user')
-    findByUser(@Param('user') user_id: number) {
-        return this.ReservationService.findByUser(user_id);
-    }
-
-    @Get(':room')
-    findByRoom_number(@Param('room') room_number: number) {
-        return this.ReservationService.findByRoom_number(room_number);
-    }
-
-    @Get(':date')
-    findByDate(@Body() reservation: UpdateReservationDto) {
-        return this.ReservationService.findByDate(reservation.init_date, reservation.end_date);
-    }
 
     @Patch(':id')
     update(@Param('id') id: number, @Body() reservation: UpdateReservationDto) {
         return this.ReservationService.update(id, reservation);
     }
 
-    @Delete(':room')
-    remove(@Param('room') room_number: number) {
-        return this.ReservationService.remove(room_number);
+    @Delete(':id')
+    remove(@Param('id') id: number) {
+        return this.ReservationService.remove(id);
     }
 
 }

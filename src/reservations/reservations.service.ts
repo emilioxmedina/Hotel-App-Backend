@@ -24,12 +24,6 @@ export class ReservationsService {
 
     findOne(id: number) {}
 
-    findByUser(user_id: number) {}
-    
-    findByRoom_number(room_number: number) {}
-
-    findByDate(init_date: Date, end_date: Date) {}
-
     update(id: number, reservation: UpdateReservationDto) {}
 
     remove(id: number) {}
