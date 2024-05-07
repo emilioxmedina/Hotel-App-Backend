@@ -9,4 +9,5 @@ export default class CreateReservationDto {
     user: number;
     @IsNumber()
     room: number;
+
 }

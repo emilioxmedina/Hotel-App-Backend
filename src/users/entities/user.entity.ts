@@ -25,7 +25,7 @@ export default class User {
   @Column({ type: 'varchar', length: 100 })
   password: string;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.user)
+  @OneToMany(() => Reservation, (reservation) => reservation.users)
   reservations: Reservation[];
 
   @BeforeInsert()

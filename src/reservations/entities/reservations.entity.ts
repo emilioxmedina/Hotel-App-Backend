@@ -11,7 +11,7 @@ export default class Reservation {
   @Column({ type: 'date' })
   end_date: Date;
   @ManyToOne(() => User, (user) => user.reservations)
-  user: User;
+  users: User;
   @ManyToOne(() => Room, (room) => room.reservations)
-  room: Room;
+  rooms: Room;
 }

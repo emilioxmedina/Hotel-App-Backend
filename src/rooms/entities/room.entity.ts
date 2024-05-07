@@ -28,6 +28,6 @@ export default class Room {
   @ApiProperty()
   occupied?: boolean;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.room)
+  @OneToMany(() => Reservation, (reservation) => reservation.rooms)
   reservations: Reservation[];
 }
