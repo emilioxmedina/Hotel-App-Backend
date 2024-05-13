@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { RoomsModule } from './rooms/rooms.module';
 import * as Joi from '@hapi/joi';
 import { ReservationsModule } from './reservations/reservations.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ReservationsModule } from './reservations/reservations.module';
     UsersModule,
     RoomsModule,
     ReservationsModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
