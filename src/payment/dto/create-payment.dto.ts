@@ -8,7 +8,8 @@ export class CreatePaymentDto {
   @IsNumber()
   amount: number;
 
-  @OneToOne(() => User, (user) => user.id)
-    user: User;
-    
+  //@OneToOne(() => User, (user) => user.id)
+  //user: User;
+  @IsNumber()
+  userId: User;
 }

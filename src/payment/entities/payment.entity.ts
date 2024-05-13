@@ -14,6 +14,9 @@ import {
   
     @Column({ type: 'varchar', length: 50 })
     payment_type: string;
+
+    @Column({ type: 'float'})
+    amount: number;  
   
     @ManyToOne(() => User, (user) => user.payments)
     user: User;
