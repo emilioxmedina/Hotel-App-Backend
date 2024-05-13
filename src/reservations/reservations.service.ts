@@ -25,7 +25,18 @@ export class ReservationsService {
         if (new_reservation.end_date === undefined) {
             throw new BadRequestException('End date is required');
         }
-        const reservation = this.reservationRepository.create(new_reservation);
+        
+        const init_date1 = new Date(Date.parse(new_reservation.init_date))
+        const end_date1 = new Date(Date.parse(new_reservation.end_date))
+
+        const new_reservation2 = {
+            init_date: init_date1,
+            end_date: end_date1,
+            user: new_reservation.user,
+            room: new_reservation.room
+        }
+
+        const reservation = this.reservationRepository.create(new_reservation2);
         return this.reservationRepository.save(reservation);
     }
 

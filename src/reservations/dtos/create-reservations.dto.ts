@@ -1,10 +1,10 @@
 import { IsDate, IsNumber, IsString } from "class-validator";
 
 export default class CreateReservationDto {
-    @IsDate()
-    init_date: Date;
-    @IsDate()
-    end_date: Date;
+    @IsString()
+    init_date: string;
+    @IsString()
+    end_date: string;
     @IsNumber()
     user: number;
     @IsNumber()

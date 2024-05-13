@@ -11,7 +11,7 @@ export class ReservationsController {
 
   @Post()
   @ApiCreatedResponse({ description: 'Este endpoint sirve para crear una nueva reserva.' })
-  create(@Body()  body: CreateReservationDto) {
+  create(@Body() body: CreateReservationDto) {
     return this.ReservationService.create(body);
   }
 
