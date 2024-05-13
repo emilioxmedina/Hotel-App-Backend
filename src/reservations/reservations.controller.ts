@@ -4,14 +4,14 @@ import CreateReservationDto from './dtos/create-reservations.dto';
 import UpdateReservationDto from './dtos/update-reservations.dto';
 import { ApiTags, ApiCreatedResponse } from '@nestjs/swagger'; // Importamos las anotaciones de Swagger
 
-@ApiTags('reservations') // Etiqueta de Swagger para agrupar las operaciones relacionadas
+@ApiTags('reservations')
 @Controller('reservations')
 export class ReservationsController {
   constructor(private readonly ReservationService: ReservationsService) {}
 
   @Post()
   @ApiCreatedResponse({ description: 'Este endpoint sirve para crear una nueva reserva.' })
-  create(@Body() body: CreateReservationDto) {
+  create(@Body()  body: CreateReservationDto) {
     return this.ReservationService.create(body);
   }
 
@@ -39,3 +39,7 @@ export class ReservationsController {
     return this.ReservationService.remove(id);
   }
 }
+function ParseDate(): (target: ReservationsController, propertyKey: "create", parameterIndex: 0) => void {
+  throw new Error('Function not implemented.');
+}
+

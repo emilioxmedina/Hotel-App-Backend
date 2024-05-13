@@ -1,4 +1,4 @@
-import { IsDate, IsNumber } from "class-validator";
+import { IsDate, IsNumber, IsString } from "class-validator";
 
 export default class CreateReservationDto {
     @IsDate()
