@@ -3,11 +3,12 @@ import {
   Column,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import Reservation from 'src/reservations/entities/reservations.entity';
-
+import Payment from 'src/payment/entities/payment.entity';
 @Entity('users')
 export default class User {
   @PrimaryGeneratedColumn()
@@ -28,6 +29,10 @@ export default class User {
   @OneToMany(() => Reservation, (reservation) => reservation.users)
   reservations: Reservation[];
 
+  @OneToMany(() => Payment, (payment) => payment.user)
+  payments: Payment[];
+
+  
   @BeforeInsert()
   async hashPassword() {
     const saltOrRounds = 10;
