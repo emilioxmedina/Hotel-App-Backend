@@ -4,7 +4,7 @@ import Payment from './entities/payment.entity';
 import { Repository } from 'typeorm';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import UpdatePaymentDto from './dto/update-payment.dto';
-import User from 'src/users/entities/user.entity';
+import User from '../users/entities/user.entity';
 
 
 @Injectable()
