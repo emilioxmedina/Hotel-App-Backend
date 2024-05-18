@@ -7,8 +7,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import Reservation from 'src/reservations/entities/reservations.entity';
-import Payment from 'src/payment/entities/payment.entity';
+import Reservation from '../../reservations/entities/reservations.entity';
+import Payment from '../../payment/entities/payment.entity';
+
 @Entity('users')
 export default class User {
   @PrimaryGeneratedColumn()

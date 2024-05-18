@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import User from 'src/users/entities/user.entity';
+import User from '../users/entities/user.entity';
 import UpdateReservationDto from './dtos/update-reservations.dto';
 import CreateReservationDto from './dtos/create-reservations.dto';
-import Room from 'src/rooms/entities/room.entity';
+import Room from '../rooms/entities/room.entity';
 import Reservation from './entities/reservations.entity';
 
 @Injectable()
