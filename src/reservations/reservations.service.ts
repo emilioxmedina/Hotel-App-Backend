@@ -30,9 +30,12 @@ export class ReservationsService {
         
         const init_date1 = new Date(Date.parse(new_reservation.init_date))
         const end_date1 = new Date(Date.parse(new_reservation.end_date))
-        
-        const payment = this.paymentRepository.create(new_reservation.payment);
+        const payment_n = await this.paymentRepository.find({});
+        const payment = new Payment();
+            payment.payment_type = new_reservation.payment.payment_type;
+            payment.amount = new_reservation.payment.amount;
         this.paymentRepository.save(payment);
+
         const new_reservation2 = {
             init_date: init_date1,
             end_date: end_date1,
