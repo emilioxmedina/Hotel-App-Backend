@@ -12,8 +12,6 @@ export class paymentService {
     constructor(
         @InjectRepository(Payment)
         private readonly paymentRepository: Repository<Payment>,
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
     ) {}
 
     findAll() {
@@ -33,8 +31,6 @@ export class paymentService {
         const payment = new Payment();
         payment.payment_type = new_payment.payment_type;
         payment.amount = new_payment.amount;
-        
-        
         return this.paymentRepository.save(payment);
     }
 

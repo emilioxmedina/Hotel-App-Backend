@@ -16,6 +16,6 @@ export default class Reservation {
   rooms: Room;
   
   @OneToOne(() => Payment)
-  @JoinColumn()
+  @JoinColumn({name: 'payment_id'})
   payment: Payment;
 }
