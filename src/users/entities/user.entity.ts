@@ -27,10 +27,6 @@ export default class User {
 
   @OneToMany(() => Reservation, (reservation) => reservation.users)
   reservations: Reservation[];
-
-  @OneToMany(() => Payment, (payment) => payment.user)
-  payments: Payment[];
-
   @BeforeInsert()
   async hashPassword() {
     const saltOrRounds = 10;
