@@ -36,7 +36,6 @@ export class paymentService {
         const payment = new Payment();
         payment.payment_type = new_payment.payment_type;
         payment.amount = new_payment.amount;
-        payment.user = User;
         
         
         return this.paymentRepository.save(payment);
@@ -50,7 +49,6 @@ export class paymentService {
         }
         payment.payment_type = payment.payment_type;
         payment.amount = payment.amount;
-        payment.user = User;
         this.paymentRepository.merge(payment, update_payment);
         return this.paymentRepository.save(payment);
     }

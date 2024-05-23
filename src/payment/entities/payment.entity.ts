@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import User from 'src/users/entities/user.entity';
-
+import reservation from 'src/reservations/entities/reservations.entity';
 @Entity('payment')
 export default class Payment {
   @PrimaryGeneratedColumn()
@@ -11,7 +11,4 @@ export default class Payment {
 
   @Column({ type: 'float' })
   amount: number;
-
-  @ManyToOne(() => User, (user) => user.payments)
-  user: User;
 }
