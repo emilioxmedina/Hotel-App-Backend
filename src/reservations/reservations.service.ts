@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import User from 'src/users/entities/user.entity';
 import UpdateReservationDto from './dtos/update-reservations.dto';
 import CreateReservationDto from './dtos/create-reservations.dto';
 import Room from 'src/rooms/entities/room.entity';
 import Reservation from './entities/reservations.entity';
-
+import Payment from 'src/payment/entities/payment.entity';
 @Injectable()
 export class ReservationsService {
     constructor(
@@ -16,6 +16,8 @@ export class ReservationsService {
         private readonly userRepository: Repository<User>,
         @InjectRepository(Room)
         private readonly roomRepository: Repository<Room>,
+        @InjectRepository(Payment)
+        private readonly paymentRepository: Repository<Payment>,
     ) {}
 
     async create(new_reservation: CreateReservationDto){
@@ -28,14 +30,17 @@ export class ReservationsService {
         
         const init_date1 = new Date(Date.parse(new_reservation.init_date))
         const end_date1 = new Date(Date.parse(new_reservation.end_date))
-
+        
+        const payment = this.paymentRepository.create(new_reservation.payment);
+        this.paymentRepository.save(payment);
         const new_reservation2 = {
             init_date: init_date1,
             end_date: end_date1,
             user: new_reservation.user,
-            room: new_reservation.room
+            room: new_reservation.room,
+            payment: payment
         }
-
+       
         const reservation = this.reservationRepository.create(new_reservation2);
         return this.reservationRepository.save(reservation);
     }

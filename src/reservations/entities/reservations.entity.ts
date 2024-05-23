@@ -14,6 +14,7 @@ export default class Reservation {
   users: User;
   @ManyToOne(() => Room, (room) => room.reservations)
   rooms: Room;
+  
   @OneToOne(() => Payment)
   @JoinColumn()
   payment: Payment;
