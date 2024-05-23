@@ -16,4 +16,4 @@ export default class CreateReservationDto {
     @Type(() => CreatePaymentDto)
     @IsNotEmpty()
     payment: CreatePaymentDto;
-}
+

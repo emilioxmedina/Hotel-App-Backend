@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsOptional } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateRoomDto {
   @IsNumber()
@@ -12,6 +12,9 @@ export class CreateRoomDto {
 
   @IsNumber()
   num_people: number;
+
+  @IsString()
+  description: string;
 
   @IsBoolean()
   @IsOptional()

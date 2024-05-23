@@ -1,6 +1,8 @@
+
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import User from 'src/users/entities/user.entity';
 import reservation from 'src/reservations/entities/reservations.entity';
+
 @Entity('payment')
 export default class Payment {
   @PrimaryGeneratedColumn()
