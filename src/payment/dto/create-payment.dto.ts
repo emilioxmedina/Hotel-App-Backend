@@ -5,7 +5,4 @@ export class CreatePaymentDto {
 
   @IsNumber()
   amount: number;
-
-  @IsNumber()
-  userId: number;
 }
