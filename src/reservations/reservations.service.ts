@@ -9,6 +9,7 @@ import Reservation from './entities/reservations.entity';
 import Payment from 'src/payment/entities/payment.entity';
 import { UsersService } from 'src/users/users.service';
 import { RoomsService } from 'src/rooms/rooms.service';
+import { paymentService } from 'src/payment/payment.service';
 
 @Injectable()
 export class ReservationsService {
@@ -23,6 +24,7 @@ export class ReservationsService {
         private readonly paymentRepository: Repository<Payment>,
         private readonly usersService: UsersService,
         private readonly roomsService: RoomsService,
+        private readonly paymentService: paymentService,
     ) {}
 
     async create(new_reservation: CreateReservationDto) {
@@ -36,32 +38,36 @@ export class ReservationsService {
         const init_date1 = new Date(Date.parse(new_reservation.init_date));
         const end_date1 = new Date(Date.parse(new_reservation.end_date));
 
-        // Crear y guardar el pago
+        // Crear el pago
         const payment = new Payment();
         payment.payment_type = new_reservation.payment.payment_type;
         payment.amount = new_reservation.payment.amount;
         await this.paymentRepository.save(payment);
 
-        // Crear y guardar la reservación
-        const reservation = new Reservation();
-        reservation.nit = new_reservation.nit;
-        reservation.customer = new_reservation.customer;
-        reservation.init_date = init_date1;
-        reservation.end_date = end_date1;
-        reservation.users = await this.usersService.findOne(new_reservation.user);
-        reservation.rooms = await this.roomsService.findOne(new_reservation.room);
-        reservation.payment = payment;
+        // Crear la reserva
+        const new_reservation3 = new Reservation();
+        new_reservation3.nit = new_reservation.nit;
+        new_reservation3.customer = new_reservation.customer;
+        new_reservation3.init_date = init_date1;
+        new_reservation3.end_date = end_date1;
+        new_reservation3.users = await this.usersService.findOne(new_reservation.user);
+        new_reservation3.rooms = await this.roomsService.findOne(new_reservation.room);
+        new_reservation3.payment = payment;
 
-        return await this.reservationRepository.save(reservation);
+        const reservation = this.reservationRepository.create(new_reservation3);
+        return this.reservationRepository.save(reservation);
     }
 
     async findAll(): Promise<Reservation[]> {
-        return this.reservationRepository.find();
+        return this.reservationRepository.find({
+            relations: ['users', 'rooms', 'payment'], // Incluir relaciones
+        });
     }
 
     async findOne(id: number): Promise<Reservation> {
         const reservation = await this.reservationRepository.findOne({
             where: { id },
+            relations: ['users', 'rooms', 'payment'], // Incluir relaciones
         });
         if (!reservation) {
             throw new NotFoundException('Reservation not found');
@@ -71,8 +77,7 @@ export class ReservationsService {
 
     async update(id: number, update_reservation: UpdateReservationDto) {
         const reservation = await this.findOne(id);
-
-        // Asegúrate de que las fechas estén correctamente formateadas si se incluyen en la actualización
+    
         if (update_reservation.init_date) {
             reservation.init_date = new Date(Date.parse(update_reservation.init_date));
         }
@@ -80,7 +85,6 @@ export class ReservationsService {
             reservation.end_date = new Date(Date.parse(update_reservation.end_date));
         }
 
-        // Actualiza otros campos si están presentes en el DTO
         if (update_reservation.nit !== undefined) {
             reservation.nit = update_reservation.nit;
         }
@@ -100,12 +104,13 @@ export class ReservationsService {
             await this.paymentRepository.save(payment);
             reservation.payment = payment;
         }
-
+    
         return this.reservationRepository.save(reservation);
     }
-
+    
     async remove(id: number) {
         const reservation = await this.findOne(id);
         await this.reservationRepository.remove(reservation);
     }
 }
+
