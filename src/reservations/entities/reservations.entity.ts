@@ -12,12 +12,14 @@ export default class Reservation {
   end_date: Date;
   @Column({ type: 'int' })
   nit: number;
+  @Column({ type: 'varchar', length: 128 })
+  customer: string;
   @ManyToOne(() => User, (user) => user.reservations)
   users: User;
   @ManyToOne(() => Room, (room) => room.reservations)
   rooms: Room;
   
   @OneToOne(() => Payment)
-  @JoinColumn({name: 'payment_id'})
+  @JoinColumn()
   payment: Payment;
 }

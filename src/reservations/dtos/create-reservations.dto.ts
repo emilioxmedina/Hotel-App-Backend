@@ -19,5 +19,7 @@ export default class CreateReservationDto {
 
     @IsNumber()
     nit: number;
+    @IsString()
+    customer: string;
 }
 
