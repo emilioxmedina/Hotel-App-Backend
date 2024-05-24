@@ -39,15 +39,16 @@ export class ReservationsService {
         const init_date1 = new Date(Date.parse(new_reservation.init_date))
         const end_date1 = new Date(Date.parse(new_reservation.end_date))
         const payment = new Payment();
-            payment.payment_type = new_reservation.payment.payment_type;
-            payment.amount = new_reservation.payment.amount;
+        payment.payment_type = new_reservation.payment.payment_type;
+        payment.amount = new_reservation.payment.amount;
         this.paymentRepository.save(payment);
         const new_reservation3 = new Reservation();
+        new_reservation3.nit = new_reservation.nit;
         new_reservation3.init_date = init_date1;
         new_reservation3.end_date = end_date1;
         new_reservation3.users = await this.usersService.findOne(new_reservation.user);
         new_reservation3.rooms = await this.roomsService.findOne(new_reservation.room);
-        new_reservation3.payment = await this.paymentService.findOne(payment.id);
+        new_reservation3.payment = payment;
         const reservation = this.reservationRepository.create(new_reservation3);
         return this.reservationRepository.save(reservation);
     }
@@ -66,12 +67,38 @@ export class ReservationsService {
         return reservation;
     }
 
-    async update(id: number, update_reservation: UpdateReservationDto){
+    async update(id: number, update_reservation: UpdateReservationDto) {
         const reservation = await this.findOne(id);
-        this.reservationRepository.merge(reservation, update_reservation);
+    
+        // Asegúrate de que las fechas estén correctamente formateadas si se incluyen en la actualización
+        if (update_reservation.init_date) {
+            reservation.init_date = new Date(Date.parse(update_reservation.init_date));
+        }
+        if (update_reservation.end_date) {
+            reservation.end_date = new Date(Date.parse(update_reservation.end_date));
+        }
+    
+        // Actualiza otros campos si están presentes en el DTO
+        if (update_reservation.nit !== undefined) {
+            reservation.nit = update_reservation.nit;
+        }
+        if (update_reservation.user !== undefined) {
+            reservation.users = await this.usersService.findOne(update_reservation.user);
+        }
+        if (update_reservation.room !== undefined) {
+            reservation.rooms = await this.roomsService.findOne(update_reservation.room);
+        }
+        if (update_reservation.payment !== undefined) {
+            const payment = new Payment();
+            payment.payment_type = update_reservation.payment.payment_type;
+            payment.amount = update_reservation.payment.amount;
+            await this.paymentRepository.save(payment);
+            reservation.payment = payment;
+        }
+    
         return this.reservationRepository.save(reservation);
     }
-
+    
     async remove(id: number){
         const reservation = await this.findOne(id);
         await this.reservationRepository.remove(reservation);

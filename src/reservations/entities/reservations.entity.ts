@@ -10,6 +10,8 @@ export default class Reservation {
   init_date: Date;
   @Column({ type: 'date' })
   end_date: Date;
+  @Column({ type: 'int' })
+  nit: number;
   @ManyToOne(() => User, (user) => user.reservations)
   users: User;
   @ManyToOne(() => Room, (room) => room.reservations)

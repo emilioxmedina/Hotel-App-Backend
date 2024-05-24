@@ -12,3 +12,4 @@ import Payment from './entities/payment.entity';
   exports: [TypeOrmModule, paymentService],
 })
 export class PaymentModule {}
+

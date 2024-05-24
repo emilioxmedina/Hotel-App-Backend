@@ -42,4 +42,3 @@ export class ReservationsController {
 function ParseDate(): (target: ReservationsController, propertyKey: "create", parameterIndex: 0) => void {
   throw new Error('Function not implemented.');
 }
-

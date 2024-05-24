@@ -24,10 +24,6 @@ export default class Room {
   @ApiProperty()
   num_people: number;
 
-  @Column()
-  @ApiProperty()
-  description: string;
-
   @Column({ default: false })
   @ApiProperty()
   occupied?: boolean;
